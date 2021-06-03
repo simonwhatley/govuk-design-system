@@ -14,7 +14,7 @@ var headingItemJsClass = 'js-tabs__heading'
 var tabContainerHiddenClass = 'app-tabs__container--hidden'
 var tabContainerJsClass = '.js-tabs__container'
 var tabContainerNoTabsJsClass = 'js-tabs__container--no-tabs'
-var allTabTogglers = '.' + tabsItemJsClass + ' a, ' + '.' + headingItemJsClass + ' a'
+var allTabTogglers = '.' + tabsItemJsClass + ' a, ' + '.' + headingItemJsClass + ' button'
 var tabTogglersMarkedOpenClass = '.js-tabs__item--open a'
 
 function AppTabs ($module) {
@@ -42,11 +42,11 @@ AppTabs.prototype.init = function () {
 AppTabs.prototype.activateAndToggle = function (event) {
   event.preventDefault()
   var $currentToggler = event.target
-  var $currentTogglerSiblings = this.$module.querySelectorAll('[href="' + $currentToggler.hash + '"]')
+  var $currentTogglerSiblings = this.$module.querySelectorAll('[aria-controls="' + $currentToggler.getAttribute('aria-controls') + '"]')
   var $tabContainer
 
   try {
-    $tabContainer = this.$module.querySelector($currentToggler.hash)
+    $tabContainer = this.$module.querySelector('#' + $currentToggler.getAttribute('aria-controls'))
   } catch (exception) {
     throw new Error('Invalid example ID given: ' + exception)
   }
@@ -67,6 +67,7 @@ AppTabs.prototype.activateAndToggle = function (event) {
   } else {
     // Reset tabs
     this.resetTabs()
+
     // make current active
     $tabContainer.classList.remove(tabContainerHiddenClass)
     $tabContainer.setAttribute('aria-hidden', 'false')
