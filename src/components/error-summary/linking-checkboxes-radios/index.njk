@@ -11,7 +11,7 @@ layout: layout-example.njk
   "errorList": [
     {
       "text": "Select if you are British, Irish or a citizen of a different country",
-      "href": "#nationality"
+      "href": "#nationality-british"
     }
   ]
 }) }}
@@ -39,15 +39,17 @@ layout: layout-example.njk
       hint: {
         text: "including English, Scottish, Welsh and Northern Irish"
       },
-      id: "nationality"
+      id: "nationality-british"
     },
     {
       value: "irish",
-      text: "Irish"
+      text: "Irish",
+      id: "nationality-irish"
     },
     {
       value: "other",
-      text: "Citizen of another country"
+      text: "Citizen of another country",
+      id: "nationality-other"
     }
   ]
 }) }}
