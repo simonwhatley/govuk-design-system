@@ -97,7 +97,16 @@
     display: block;
   }
 
-  a {
+  button {
+    @include govuk-link-common;
+    @include govuk-font($size: 19);
+    @include govuk-link-decoration;
+
+    color: $govuk-link-colour;
+    background: none;
+    border: none;
+    outline: none;
+
     // Extend the touch area of the <a> to fill the entire heading
     &:after {
       content: "";
