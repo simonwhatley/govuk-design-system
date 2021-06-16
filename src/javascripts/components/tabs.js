@@ -14,7 +14,7 @@ var headingItemJsClass = 'js-tabs__heading'
 var tabContainerHiddenClass = 'app-tabs__container--hidden'
 var tabContainerJsClass = '.js-tabs__container'
 var tabContainerNoTabsJsClass = 'js-tabs__container--no-tabs'
-var allTabTogglers = '.' + tabsItemJsClass + ' a, ' + '.' + headingItemJsClass + ' button'
+var allTabTogglers = '.' + tabsItemJsClass + ' a, ' + '.' + headingItemJsClass + ' button,'  + '.' + headingItemJsClass + ' a'
 var tabTogglersMarkedOpenClass = '.js-tabs__item--open a'
 
 function AppTabs ($module) {
@@ -28,6 +28,9 @@ AppTabs.prototype.init = function () {
   if (!this.$module) {
     return
   }
+  // enhance tab links to buttons on mobile if JS enabled
+  this.enhanceMobileButtons()
+
   // reset all tabs
   this.resetTabs()
   // add close to each tab
@@ -82,6 +85,24 @@ AppTabs.prototype.activateAndToggle = function (event) {
     })
   }
 }
+
+// We progressively enhance the mobile tab links to buttons
+// to make sure we're using semantic HTML to describe the behaviour of the tabs
+AppTabs.prototype.enhanceMobileButtons = function () {
+  var mobileTabs = this.$module.querySelectorAll('.' + headingItemJsClass + ' a')
+
+  nodeListForEach(mobileTabs, function (mobileTab) {
+    var button = document.createElement('button')
+    button.setAttribute("aria-controls", mobileTab.getAttribute("aria-controls"))
+    button.setAttribute("data-track", mobileTab.getAttribute("data-track"))
+    button.innerHTML = mobileTab.innerHTML
+    mobileTab.parentNode.append(button)
+    mobileTab.remove()
+  })
+
+  this.$allTabTogglers = this.$module.querySelectorAll(allTabTogglers)
+}
+
 // reset aria attributes to default and close the tab content container
 AppTabs.prototype.resetTabs = function () {
   nodeListForEach(this.$allTabContainers, function ($tabContainer) {
